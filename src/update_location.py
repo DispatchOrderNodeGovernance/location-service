@@ -16,11 +16,12 @@ def encode_geohash(latitude, longitude, cell_size):
     return lat_cell, f"{lat_cell}_{lon_cell}"
 
 def lambda_handler(event, context):
-    # Extracting details from the event
-    driver_id = event['driver_id']
-    status = event['status']
-    latitude = event['latitude']
-    longitude = event['longitude']
+    # Extracting body from the event
+    body = json.loads(event['body'])
+    driver_id = body['driver_id']
+    status = body['status']
+    latitude = body['latitude']
+    longitude = body['longitude']
     
     # Generating geohash and cell
     lat_cell, geohash = encode_geohash(latitude, longitude, CELL_SIZE)
@@ -74,3 +75,4 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps(response_data)
     }
+
