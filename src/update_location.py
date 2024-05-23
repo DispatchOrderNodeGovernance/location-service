@@ -25,6 +25,7 @@ def lambda_handler(event, context):
     if 'action' in body and body['action'] == 'request_for_quote':
         dispatch_endpoint = body['dispatch_endpoint']
         payload = {
+            'action': 'quote',
             'uuid': body['uuid'],
             'token': body['token'],
             'contract_value': body['contract_value'],
@@ -37,9 +38,8 @@ def lambda_handler(event, context):
         # Create the request object
         req = urllib.request.Request(dispatch_endpoint, data=data, method='POST')
         
-        # Set a timeout for the request
         try:
-            with urllib.request.urlopen(req, timeout=0.05) as response:
+            with urllib.request.urlopen(req, timeout=2) as response:
                 pass
         except socket.timeout:
             pass # Ignore timeout exceptions
