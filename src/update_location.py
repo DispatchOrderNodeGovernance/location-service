@@ -4,6 +4,7 @@ import math
 import urllib.request
 import urllib.parse
 from datetime import datetime
+import socket
 
 # Constants
 EARTH_RADIUS = 6371000  # in meters
@@ -40,8 +41,10 @@ def lambda_handler(event, context):
         try:
             with urllib.request.urlopen(req, timeout=0.05) as response:
                 pass
+        except socket.timeout:
+            pass # Ignore timeout exceptions
         except Exception as e:
-            pass
+            pass # Ignore any other exceptions
         
         # Return response with 200 status code and empty body
         return {
