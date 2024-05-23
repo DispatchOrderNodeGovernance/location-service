@@ -1,6 +1,8 @@
 import json
 import os
 import math
+import urllib.request
+import urllib.parse
 from datetime import datetime
 
 # Constants
@@ -18,6 +20,35 @@ def encode_geohash(latitude, longitude, cell_size):
 def lambda_handler(event, context):
     # Extracting body from the event
     body = json.loads(event['body'])
+    
+    if 'action' in body and body['action'] == 'request_for_quote':
+        dispatch_endpoint = body['dispatch_endpoint']
+        payload = {
+            'uuid': body['uuid'],
+            'token': body['token'],
+            'contract_value': body['contract_value'],
+            'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
+        }
+        
+        # Encode the payload for the request
+        data = urllib.parse.urlencode(payload).encode()
+        
+        # Create the request object
+        req = urllib.request.Request(dispatch_endpoint, data=data, method='POST')
+        
+        # Set a timeout for the request
+        try:
+            with urllib.request.urlopen(req, timeout=0.05) as response:
+                pass
+        except Exception as e:
+            pass
+        
+        # Return response with 200 status code and empty body
+        return {
+            'statusCode': 200,
+            'body': json.dumps({})
+        }
+    
     driver_id = body['driver_id']
     status = body['status']
     latitude = body['latitude']
@@ -75,4 +106,3 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': json.dumps(response_data)
     }
-
