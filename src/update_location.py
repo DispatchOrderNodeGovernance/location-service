@@ -28,10 +28,10 @@ def lambda_handler(event, context):
         payload = {
             'action': 'quote',
             'uuid': body['uuid'],
-#            'token': body['token'],
-#            'contract_uuid': uuid.uuid4().hex,
-#            'contract_value': body['contract_value'],
-#            'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
+            'token': body['token'],
+            'contract_uuid': uuid.uuid4().hex,
+            'contract_value': body['contract_value'],
+            'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
         }
         os.makedirs(f"/tmp/{payload['uuid']}", exist_ok=True)
         with open(f"/tmp/{payload['uuid']}/{payload['contract_uuid']}.json", 'w') as contract_file:
