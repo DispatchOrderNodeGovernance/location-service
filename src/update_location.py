@@ -27,11 +27,11 @@ def lambda_handler(event, context):
         dispatch_endpoint = body['dispatch_endpoint']
         payload = {
             'action': 'quote',
-            'uuid': body['uuid'],
-            'token': body['token'],
-            'contract_uuid': uuid.uuid4().hex,
-            'contract_value': body['contract_value'],
-            'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
+#            'uuid': body['uuid'],
+#            'token': body['token'],
+#            'contract_uuid': uuid.uuid4().hex,
+#            'contract_value': body['contract_value'],
+#            'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
         }
         os.makedirs(f"/tmp/{payload['uuid']}", exist_ok=True)
         with open(f"/tmp/{payload['uuid']}/{payload['contract_uuid']}.json", 'w') as contract_file:
@@ -57,7 +57,7 @@ def lambda_handler(event, context):
         except urllib.error.HTTPError as e:
             return {
                 'statusCode': 200,
-                'body': f'HTTPError: {e.code} - {e.reason}. Endpoint: {dispatch_endpoint}. Payload: {json.dumps(payload)}'
+                'body': f'HTTPError: Endpoint: {dispatch_endpoint}. Payload: {data}'
             }
         except Exception as e:
             return {
