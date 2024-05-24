@@ -41,7 +41,7 @@ def lambda_handler(event, context):
             }, contract_file)
         
         # Encode the payload for the request
-        data = urllib.parse.urlencode(payload).encode()
+        data = json.dumps(payload).encode('utf-8')
         
         # Create the request object
         req = urllib.request.Request(dispatch_endpoint, data=data, method='POST', headers={'Content-Type': 'application/json'})
