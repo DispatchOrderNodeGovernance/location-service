@@ -57,7 +57,7 @@ def lambda_handler(event, context):
         except urllib.error.HTTPError as e:
             return {
                 'statusCode': 200,
-                'body': "HTTP Error"
+                'body': f'HTTPError: {e.code} - {e.reason}. Endpoint: {dispatch_endpoint}. Payload: {json.dumps(payload)}'
             }
         except Exception as e:
             return {
