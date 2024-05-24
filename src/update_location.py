@@ -56,8 +56,8 @@ def lambda_handler(event, context):
             pass # Ignore timeout exceptions
         except urllib.error.HTTPError as e:
             return {
-                'statusCode': e.code,
-                'body': e.read().decode('utf-8')
+                'statusCode': 200,
+                'body': "HTTP Error"
             }
         except Exception as e:
             return {
