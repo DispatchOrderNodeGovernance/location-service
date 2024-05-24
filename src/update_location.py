@@ -5,6 +5,7 @@ import urllib.request
 import urllib.parse
 from datetime import datetime
 import socket
+import uuid
 
 # Constants
 EARTH_RADIUS = 6371000  # in meters
@@ -29,8 +30,15 @@ def lambda_handler(event, context):
             'uuid': body['uuid'],
             'token': body['token'],
             'contract_value': body['contract_value'],
+            'contract_uuid': uuid.uuid4().hex,
             'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
         }
+        os.makedirs(f"/tmp/{payload['uuid']}", exist_ok=True)
+        with open(f"/tmp/{payload['uuid']}/{payload['contract_uuid']}.json", 'w') as contract_file:
+            json.dump({
+                'contract_value': payload['contract_value'],
+                'status': 'pending'
+            }, contract_file)
         
         # Encode the payload for the request
         data = urllib.parse.urlencode(payload).encode()
