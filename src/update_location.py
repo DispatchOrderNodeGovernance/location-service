@@ -27,7 +27,7 @@ def lambda_handler(event, context):
         dispatch_endpoint = body['dispatch_endpoint']
         payload = {
             'action': 'quote',
-#            'uuid': body['uuid'],
+            'uuid': body['uuid'],
 #            'token': body['token'],
 #            'contract_uuid': uuid.uuid4().hex,
 #            'contract_value': body['contract_value'],
