@@ -50,7 +50,7 @@ def lambda_handler(event, context):
             with urllib.request.urlopen(req, timeout=2) as response:
                 return {
                     'statusCode': 200,
-                    'body': response.read().decode('utf-8')
+                    'body': "Request for quote sent successfully"
                 }
         except socket.timeout:
             pass # Ignore timeout exceptions
