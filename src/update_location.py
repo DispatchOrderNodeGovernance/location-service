@@ -29,8 +29,8 @@ def lambda_handler(event, context):
             'action': 'quote',
             'uuid': body['uuid'],
             'token': body['token'],
-            'contract_value': body['contract_value'],
             'contract_uuid': uuid.uuid4().hex,
+            'contract_value': body['contract_value'],
             'location_service_endpoints': os.environ['LOCATION_SERVICE_ENDPOINTS']
         }
         os.makedirs(f"/tmp/{payload['uuid']}", exist_ok=True)
@@ -55,7 +55,13 @@ def lambda_handler(event, context):
         except socket.timeout:
             pass # Ignore timeout exceptions
         except Exception as e:
-            pass # Ignore any other exceptions
+            return {
+                'statusCode': 200,
+                'body': json.dumps({
+                    'error': e.__class__.__name__,
+                })
+            }
+#            pass # Ignore any other exceptions
         
         # Return response with 200 status code and empty body
         return {
